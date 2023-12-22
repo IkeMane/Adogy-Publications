@@ -1,0 +1,14 @@
+{
+    "publications": [
+        {
+            "URL": "https://www.cnn.com/",
+            "Image URL": "https://media.cnn.com/api/v1/images/stellar/prod/230111163015-01-cnn-atlanta-headquarters-1117.jpg?c=original",
+            "Title": "CNN News"
+        },
+        {
+            "URL": "https://www.bbc.com/",
+            "Image URL": "https://www.logodesignlove.com/wp-content/uploads/2008/08/bbc-logo-signage-01.jpg",
+            "Title": "BBC News"
+        }
+    ]
+}

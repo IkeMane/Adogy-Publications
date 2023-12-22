@@ -1,0 +1,140 @@
+{
+    "publications": [
+        {
+            "URL": "https://www.cnn.com/",
+            "Image URL": "https://media.cnn.com/api/v1/images/stellar/prod/230111163015-01-cnn-atlanta-headquarters-1117.jpg?c=original",
+            "Title": "CNN News"
+        },
+        {
+            "URL": "https://news.bbc.co.uk",
+            "Image URL": "https://images.bbc.co.uk/logo.png",
+            "Title": "BBC News"
+        },
+        {
+            "URL": "https://news.foxnews.com",
+            "Image URL": "https://images.foxnews.com/logo.png",
+            "Title": "Fox News"
+        },
+        {
+            "URL": "https://news.abcnews.com",
+            "Image URL": "https://images.abcnews.com/logo.png",
+            "Title": "ABC News"
+        },
+        {
+            "URL": "https://news.nbcnews.com",
+            "Image URL": "https://images.nbcnews.com/logo.png",
+            "Title": "NBC News"
+        },
+        {
+            "URL": "https://news.cbsnews.com",
+            "Image URL": "https://images.cbsnews.com/logo.png",
+            "Title": "CBS News"
+        },
+        {
+            "URL": "https://news.usatoday.com",
+            "Image URL": "https://images.usatoday.com/logo.png",
+            "Title": "USA Today"
+        },
+        {
+            "URL": "https://news.nytimes.com",
+            "Image URL": "https://images.nytimes.com/logo.png",
+            "Title": "New York Times"
+        },
+        {
+            "URL": "https://news.washingtonpost.com",
+            "Image URL": "https://images.washingtonpost.com/logo.png",
+            "Title": "Washington Post"
+        },
+        {
+            "URL": "https://news.wsj.com",
+            "Image URL": "https://images.wsj.com/logo.png",
+            "Title": "Wall Street Journal"
+        },
+        {
+            "URL": "https://news.latimes.com",
+            "Image URL": "https://images.latimes.com/logo.png",
+            "Title": "Los Angeles Times"
+        },
+        {
+            "URL": "https://news.chicagotribune.com",
+            "Image URL": "https://images.chicagotribune.com/logo.png",
+            "Title": "Chicago Tribune"
+        },
+        {
+            "URL": "https://news.huffpost.com",
+            "Image URL": "https://images.huffpost.com/logo.png",
+            "Title": "Huffington Post"
+        },
+        {
+            "URL": "https://news.theguardian.com",
+            "Image URL": "https://images.theguardian.com/logo.png",
+            "Title": "The Guardian"
+        },
+        {
+            "URL": "https://news.thetimes.co.uk",
+            "Image URL": "https://images.thetimes.co.uk/logo.png",
+            "Title": "The Times"
+        },
+        {
+            "URL": "https://news.telegraph.co.uk",
+            "Image URL": "https://images.telegraph.co.uk/logo.png",
+            "Title": "The Telegraph"
+        },
+        {
+            "URL": "https://news.dailymail.co.uk",
+            "Image URL": "https://images.dailymail.co.uk/logo.png",
+            "Title": "Daily Mail"
+        },
+        {
+            "URL": "https://news.thesun.co.uk",
+            "Image URL": "https://images.thesun.co.uk/logo.png",
+            "Title": "The Sun"
+        },
+        {
+            "URL": "https://news.mirror.co.uk",
+            "Image URL": "https://images.mirror.co.uk/logo.png",
+            "Title": "Daily Mirror"
+        },
+        {
+            "URL": "https://news.express.co.uk",
+            "Image URL": "https://images.express.co.uk/logo.png",
+            "Title": "Daily Express"
+        },
+        {
+            "URL": "https://news.metro.co.uk",
+            "Image URL": "https://images.metro.co.uk/logo.png",
+            "Title": "Metro"
+        },
+        {
+            "URL": "https://news.independent.co.uk",
+            "Image URL": "https://images.independent.co.uk/logo.png",
+            "Title": "The Independent"
+        },
+        {
+            "URL": "https://news.msnbc.com",
+            "Image URL": "https://images.msnbc.com/logo.png",
+            "Title": "MSNBC"
+        },
+        {
+            "URL": "https://news.npr.org",
+            "Image URL": "https://images.npr.org/logo.png",
+            "Title": "NPR"
+        },
+        {
+            "URL": "https://news.aljazeera.com",
+            "Image URL": "https://images.aljazeera.com/logo.png",
+            "Title": "Al Jazeera"
+        },
+        {
+            "URL": "https://news.rt.com",
+            "Image URL": "https://images.rt.com/logo.png",
+            "Title": "RT"
+        },
+        {
+            "URL": "https://news.cbc.ca",
+            "Image URL": "https://images.cbc.ca/logo.png",
+            "Title": "CBC"
+        }
+        
+    ]
+}
