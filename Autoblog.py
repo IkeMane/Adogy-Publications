@@ -105,7 +105,7 @@ article += "\n\n"+ introduction_ +"\n\n" + overview_ + "\n\n" + methodology_ +"\
 
 table_of_contents_ = table_of_contents(article)
 
-final_article = introduction_ +"\n TABLE OF CONTETENTS: \n"+ table_of_contents_ +"\n OVERVIEW: \n"+ overview_ + "\n METHODOLOGY \n" + methodology_ +"\nSECTIONS: \n"+ sections
+final_article = introduction_ +"\n\n"+ table_of_contents_ +"\n\n"+ overview_ + "\n\n" + methodology_ +"\n\n\n"+ sections
 #add results to results.md file
 with open('results.md', 'w') as file:
     file.write(final_article)
