@@ -47,6 +47,7 @@ def read_publications(filename):
     return data['publications']
 
 
+#TODO change this to be an assistant API call to add internal links and to be sure it doesnt max out of tokens.
 def generate_sections(methodology,keyword,publications):
     rated_publications = f"## {keyword} \n\n"
     messages = list()
@@ -111,7 +112,7 @@ with open('results.md', 'w') as file:
     file.write(final_article)
 
 
-
+#NOTE: in future article might get too long and we will need to use assistant API and the article as a doc to it can vectorize it and add overview and table of contents to it.
 
 #TODO def generate_all_publications():
     #basicly create the JSON of all publications with their names and links based off {keyword}
