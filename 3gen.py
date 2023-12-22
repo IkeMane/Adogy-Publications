@@ -1,7 +1,6 @@
 from openai import OpenAI
 from dotenv import load_dotenv
 import os
-import time
 import json
 
 load_dotenv()
@@ -89,27 +88,6 @@ def table_of_contents(article):
     response_message = response.choices[0].message.content
     return response_message
 
-# def grading(article):
-#     systemmsg = "You are an editor for wordpress articles."
-#     messages = list()
-#     messages.append({"role": "system", "content": systemmsg})
-#     prompt = f"Come up with potential issues with this article and what could be improved. {article}."
-#     messages.append({"role": "user", "content": prompt})
-#     response = Client.chat.completions.create(model="gpt-4-1106-preview",messages=messages,)
-#     response_message = response.choices[0].message.content
-#     return response_message
-
-# def generate_article(article,grading):
-#     systemmsg = "You are an writer for wordpress articles."
-#     messages = list()
-#     messages.append({"role": "system", "content": systemmsg})
-#     prompt = f"You are an wordpress article writer fix this article based off the potential improvments, be sure to use markdown as plain text: {grading} and the article: {article}."
-#     messages.append({"role": "user", "content": prompt})
-#     response = Client.chat.completions.create(model="gpt-4-1106-preview",messages=messages,)
-#     response_message = response.choices[0].message.content
-#     return response_message
-
-
 
 # Example usage
 methodology_ = methodology(keyword)
@@ -134,10 +112,11 @@ print("\n\n\n ARTICLE: ", article)
 
 #TODO def screenshot_all_publications():
     #run throught JSON and screenshot all publications homepage - Note: scroll down to avoid ads.
+    #add to JSON the screenshot link
 
 
 #TODO def generate_ranking(methodology): 
     #prompt: generate ranking for {category} based off {methodology} in JSON format: {category: {publication: {rank: 1, link: https://www.wired.com/, photo: https://www.wired.com/logo.png}}}
     #will give it the doc using assistants API. 
 
-#TODO add assitants API to use doc of our interal links to add to the sections.
+#TODO add assitants API to take advantage of files with our interal links to add to the sections.
