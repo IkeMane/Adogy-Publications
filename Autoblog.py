@@ -48,7 +48,7 @@ def read_publications(filename):
 
 
 def generate_sections(methodology,keyword,publications):
-    rated_publications = ""
+    rated_publications = f"## {keyword} \n\n"
     messages = list()
     systemmsg = f"You are a section generator for wordpress articles. (dont use ``` instead just use plain text for the markdown) Write in a journalist tone and based off {methodology}."
     messages.append({"role": "system", "content": systemmsg})
@@ -73,7 +73,7 @@ def overview(keyword, rated_publications):
     systemmsg = "You are an article overview generator for wordpress articles. You generate the overview with this format in markdown(dont use ``` instead just use plain text): \n ## Top Tech Publications: \[WIRED](https://www.wired.com/) for tech news presented in a fun, stylish way targeted towards young professionals Top tech publication for readers under age 40 \n [ReadWrite](https://readwrite.com/) for detailed articles on subjects such as SEO, fintech, and software development Top tech publication for e-commerce"
     messages = list()
     messages.append({"role": "system", "content": systemmsg})
-    prompt = f"Generate an overview of this article in plain text but as markdown for the article titled {keyword}. Keep it one sentence MAX for each, include a heading h1 for the section. {rated_publications}."
+    prompt = f"Generate an overview of this article with no images in plain text but as markdown for the article titled {keyword}. Keep it one sentence MAX for each, include a heading h1 for the section. {rated_publications}."
     messages.append({"role": "user", "content": prompt})
     response = Client.chat.completions.create(model="gpt-3.5-turbo-1106",messages=messages,)
     response_message = response.choices[0].message.content
@@ -113,15 +113,12 @@ with open('results.md', 'w') as file:
 
 
 
-
 #TODO def generate_all_publications():
     #basicly create the JSON of all publications with their names and links based off {keyword}
-
 
 #TODO def screenshot_all_publications():
     #run throught JSON and screenshot all publications homepage - Note: scroll down to avoid ads.
     #add to JSON the screenshot link
-
 
 #TODO def generate_ranking(methodology): 
     #prompt: generate ranking for {category} based off {methodology} in JSON format: {category: {publication: {rank: 1, link: https://www.wired.com/, photo: https://www.wired.com/logo.png}}}
