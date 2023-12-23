@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import os
 import requests
 from pexels_api import API
+import random
 
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
@@ -16,14 +17,17 @@ def search_and_download(search_term, filename='image.jpg'):
     photos = api.get_entries()
 
     if photos:
-        image_url = photos[0].original
+        # Select a random image from the first page of results
+        selected_photo = random.choice(photos)
+        image_url = selected_photo.original
+
+        # Download the selected image
         img_data = requests.get(image_url).content
         with open(filename, 'wb') as handler:
             handler.write(img_data)
         return json.dumps({"search_term": search_term, "image_url": image_url, "saved_as": filename})
     else:
         return json.dumps({"search_term": search_term, "image_url": "None", "saved_as": "None"})
-
 
 
 
@@ -38,7 +42,7 @@ def run_conversation(keyword):
             "type": "function",
             "function": {
                 "name": "search_and_download",
-                "description": "Search and download an image based on a search term, only call it once per message.",
+                "description": "Search and downloads a random image from the search term, only call this function once per message. - May have to input the same exact search term a few times to get the perfect image.",
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -101,7 +105,7 @@ def run_conversation(keyword):
                 {
                 "role": "user",
                 "content": [
-                    {"type": "text", "text": f"is this image sutatble for the article titled {keyword}? If not then say no, explain what the image was in one sentence and say try again."},
+                    {"type": "text", "text": f"is this image sutatble for the article titled {keyword}? If not then say no, explain what the image was in one sentence and say try again, you can use the same search term again or a new one if it still isnt working. Note: The image doesnt have to be perfect but it should resemble something in the article."},
                     {
                     "type": "image_url",
                     "image_url": {
@@ -123,11 +127,13 @@ def run_conversation(keyword):
             if "no" in third_response.choices[0].message.content.lower():
                 #restart loop
                 print("\n\nRestarting loop")
+                print(messages)
                 continue
                 
             else:
                 #stop loop
                 print("\n\nStopping loop because of yes in response")
+                print(messages)
                 break
         else:
             #stop loop
