@@ -9,7 +9,7 @@ import random
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-# Function to search and download images from Pexels
+
 def search_and_download(search_term, filename='image.jpg'):
     PEXELS_API_KEY = os.getenv("PEXELS_API_KEY")
     api = API(PEXELS_API_KEY)
@@ -17,19 +17,23 @@ def search_and_download(search_term, filename='image.jpg'):
     photos = api.get_entries()
 
     if photos:
-        # Select a random image from the first page of results
-        selected_photo = random.choice(photos)
-        image_url = selected_photo.original
+        # Limit to the top 5 results
+        top_photos = photos[:5]
 
-        # Download the selected image
-        img_data = requests.get(image_url).content
-        with open(filename, 'wb') as handler:
-            handler.write(img_data)
-        return json.dumps({"search_term": search_term, "image_url": image_url, "saved_as": filename})
+        # Select a random image from the top 5 results
+        if top_photos:
+            selected_photo = random.choice(top_photos)
+            image_url = selected_photo.original
+
+            # Download the selected image
+            img_data = requests.get(image_url).content
+            with open(filename, 'wb') as handler:
+                handler.write(img_data)
+            return json.dumps({"search_term": search_term, "image_url": image_url, "saved_as": filename})
+        else:
+            return json.dumps({"search_term": search_term, "image_url": "None", "saved_as": "None"})
     else:
         return json.dumps({"search_term": search_term, "image_url": "None", "saved_as": "None"})
-
-
 
 
 def run_conversation(keyword):
@@ -62,7 +66,41 @@ def run_conversation(keyword):
     ]
 
     #loop through this
+    counter = 6
     while True:
+        if counter > 5:
+            #generate new image
+            messages = list()
+            systemmsg = "You are a prompt enegineer for AI generated images."
+            messages.append({"role": "system", "content": systemmsg})
+            messages.append({"role": "user", "content": f"Generate a prompt for Dall-e to generate an image for the article titled {keyword}. You will have to describe exactly what you want to see to every detail. Be very specific."})
+            dalle_prompt = client.chat.completions.create(
+                model="gpt-3.5-turbo-1106",
+                messages = messages,
+            )
+            prompt = dalle_prompt.choices[0].message.content
+            print("\n\nDalle Prompt:",prompt)
+
+            # Generate the image
+            response = client.images.generate(
+                model="dall-e-3",
+                prompt=prompt,
+                size="1024x1024",
+                quality="hd",
+                n=1,
+                style="vivid",
+            )
+            image_url = response.data[0].url
+            print("\n\nDalle Image URL:",image_url)
+
+            # Download and save the image
+            img_data = requests.get(image_url).content
+            with open('image.jpg', 'wb') as handler:
+                handler.write(img_data)
+            print("Image saved as image.jpg")
+            break
+
+
         response = client.chat.completions.create(
             model="gpt-3.5-turbo-1106",
             messages=messages,
@@ -128,22 +166,27 @@ def run_conversation(keyword):
                 #restart loop
                 print("\n\nRestarting loop")
                 print(messages)
+                counter += 1
                 continue
                 
             else:
                 #stop loop
                 print("\n\nStopping loop because of yes in response")
                 print(messages)
+                counter = 0
                 break
         else:
             #stop loop
             print(messages)
             print("\n\nStopping loop because no tool calls")
+            counter = 0
             break  
 
 
 keyword = "top us media publications"
 print(run_conversation(keyword))
+
+#TODO Have it see images that its already used and not use them again. add a general screenshot of the website maybe?
 
 
 """
