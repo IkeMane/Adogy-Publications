@@ -71,7 +71,7 @@ def run_conversation(keyword):
         if counter > 5:
             #generate new image
             messages = list()
-            systemmsg = "You are a prompt enegineer for AI generated images."
+            systemmsg = "You are a prompt enegineer for AI generated images. But be careful, when dealing with touchy subjects, you will have to be less detailed and more vague if its a touchy subject."
             messages.append({"role": "system", "content": systemmsg})
             messages.append({"role": "user", "content": f"Generate a prompt for Dall-e to generate an image for the article titled {keyword}. You will have to describe exactly what you want to see to every detail. Be very specific."})
             dalle_prompt = client.chat.completions.create(
@@ -183,7 +183,7 @@ def run_conversation(keyword):
             break  
 
 
-keyword = "top us media publications"
+keyword = "Flash Floods"
 print(run_conversation(keyword))
 
 #TODO Have it see images that its already used and not use them again. add a general screenshot of the website maybe?
