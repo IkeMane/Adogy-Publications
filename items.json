@@ -1,0 +1,79 @@
+{
+    "publications": [
+        {
+            "URL": "https://www.wired.com/",
+            "Image URL": "https://www.relevance.com/wp-content/uploads/2022/06/Wired.png",
+            "Title": "WIRED"
+        },
+        {
+            "URL": "https://readwrite.com/",
+            "Image URL": "https://www.relevance.com/wp-content/uploads/2022/06/ReadWrite-tech-publication.png",
+            "Title": "ReadWrite"
+        },
+        {
+            "URL": "https://techcrunch.com/",
+            "Image URL": "https://www.relevance.com/wp-content/uploads/2022/06/TechCrunch-tech-publication.png",
+            "Title": "Tech Crunch"
+        },
+        {
+            "URL": "https://www.dmnews.com/",
+            "Image URL": "https://www.relevance.com/wp-content/uploads/2022/06/DMNews-tech-publication.jpg",
+            "Title": "DMNews"
+        },
+        {
+            "URL": "https://techreport.com/",
+            "Image URL": "https://www.relevance.com/wp-content/uploads/2022/06/TechReport-tech-publication.jpg",
+            "Title": "Tech Report"
+        },
+        {
+            "URL": "https://medium.com/",
+            "Image URL": "https://www.relevance.com/wp-content/uploads/2022/06/Medium.png",
+            "Title": "Medium"
+        },
+        {
+            "URL": "https://www.wsj.com/",
+            "Image URL": "https://www.relevance.com/wp-content/uploads/2022/06/wsj-test.jpg",
+            "Title": "WSJ"
+        },
+        {
+            "URL": "https://www.smallbiztechnology.com/",
+            "Image URL": "https://www.relevance.com/wp-content/uploads/2022/06/SmallBizTechnology-tech-publication.jpg",
+            "Title": "SmallBiz Technology"
+        },
+        {
+            "URL": "https://www.cnet.com/",
+            "Image URL": "https://www.relevance.com/wp-content/uploads/2022/06/CNET.png",
+            "Title": "CNET"
+        },
+        {
+            "URL": "https://venturebeat.com/",
+            "Image URL": "https://www.relevance.com/wp-content/uploads/2022/06/VentureBeat-tech-publication.jpg",
+            "Title": "VentureBeat"
+        },
+        {
+            "URL": "https://www.theverge.com/",
+            "Image URL": "https://www.relevance.com/wp-content/uploads/2022/06/TheVerge.png",
+            "Title": "The Verge"
+        },
+        {
+            "URL": "https://www.techrepublic.com/",
+            "Image URL": "https://www.relevance.com/wp-content/uploads/2022/06/TechRepublic-tech-publication-e1655322227981.png",
+            "Title": "Tech Republic"
+        },
+        {
+            "URL": "https://www.bloomberg.com/",
+            "Image URL": "https://www.relevance.com/wp-content/uploads/2022/06/Bloomberg.png",
+            "Title": "Bloomberg News"
+        },
+        {
+            "URL": "https://thenextweb.com/",
+            "Image URL": "https://www.relevance.com/wp-content/uploads/2022/06/The-Next-Web-tech-publication.jpg",
+            "Title": "The Next Web"
+        },
+        {
+            "URL": "http://pcmag.com/",
+            "Image URL": "https://www.relevance.com/wp-content/uploads/2022/06/PCMagazine-tech-publication.png",
+            "Title": "PC Magazine"
+        }
+    ]
+}

@@ -66,7 +66,7 @@ def run_conversation(keyword):
     ]
 
     #loop through this
-    counter = 6
+    counter = 0
     while True:
         if counter > 5:
             #generate new image
@@ -165,35 +165,31 @@ def run_conversation(keyword):
             if "no" in third_response.choices[0].message.content.lower():
                 #restart loop
                 print("\n\nRestarting loop")
-                print(messages)
+                # print(messages)
                 counter += 1
                 continue
                 
             else:
                 #stop loop
                 print("\n\nStopping loop because of yes in response")
-                print(messages)
+                # print(messages)
                 counter = 0
                 break
         else:
             #stop loop
-            print(messages)
+            # print(messages)
             print("\n\nStopping loop because no tool calls")
             counter = 0
             break  
 
 
-keyword = "Flash Floods"
-print(run_conversation(keyword))
+def main(keyword):
+    print(run_conversation(keyword))
+
+
+if __name__ == "__main__":
+    keyword = "Flash Floods"
+    main(keyword)
+
 
 #TODO Have it see images that its already used and not use them again. add a general screenshot of the website maybe?
-
-
-"""
-I can just have one gpt do all the work. 
-Wheres it does the search and then the image
-comes back to it when its doen with the search asking if this is 
-right for the article title
-and then it calls the generate new image function if not
-and then it repeates if the image is not right..
-"""

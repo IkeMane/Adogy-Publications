@@ -6,8 +6,7 @@ import json
 load_dotenv()
 Client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-keyword = "top us media publications"
-
+keyword = "Top Tech Publications"
 
 
 def upload_file(file_path, purpose):
@@ -22,7 +21,7 @@ def methodology(keyword):
     messages.append({"role": "system", "content": systemmsg})
     prompt = f"Generate a methodology section in plain text but as markdown starting at h2 for a wordpress article titled{keyword}. Include a heading for the section"
     messages.append({"role": "user", "content": prompt})
-    response = Client.chat.completions.create(model="gpt-3.5-turbo-1106",messages=messages,)
+    response = Client.chat.completions.create(model="gpt-4",messages=messages,)
     response_message = response.choices[0].message.content
     # print(response_message)
     return response_message
@@ -34,7 +33,7 @@ def introduction(article):
     messages.append({"role": "system", "content": systemmsg})
     prompt = f"Generate a fun short one paragraph introduction without including the methodology for a wordpress article format it in plain text but as markdown starting at h2: \n {article}"
     messages.append({"role": "user", "content": prompt})
-    response = Client.chat.completions.create(model="gpt-3.5-turbo-1106",messages=messages,)
+    response = Client.chat.completions.create(model="gpt-4",messages=messages,)
     response_message = response.choices[0].message.content
     # print("\n\nIntroduction:",response_message)
     return response_message
@@ -60,7 +59,7 @@ def generate_sections(methodology,keyword,publications):
         prompt = f"Generate a short (one paragraph) section in plain text but as markdown about {name} for the article title {keyword}. Be sure to add their link whenever you mention their name: {link} and include their logo: {photo}."
         messages.append({"role": "user", "content": prompt})
         response = Client.chat.completions.create(
-            model="gpt-3.5-turbo-1106",
+            model="gpt-4",
             messages=messages,
         )
         response_message = response.choices[0].message.content
@@ -76,7 +75,7 @@ def overview(keyword, rated_publications):
     messages.append({"role": "system", "content": systemmsg})
     prompt = f"Generate an overview of this article with no images in plain text but as markdown for the article titled {keyword}. Keep it one sentence MAX for each, include a heading h1 for the section. {rated_publications}."
     messages.append({"role": "user", "content": prompt})
-    response = Client.chat.completions.create(model="gpt-3.5-turbo-1106",messages=messages,)
+    response = Client.chat.completions.create(model="gpt-4",messages=messages,)
     response_message = response.choices[0].message.content
     return response_message
 
@@ -86,45 +85,45 @@ def table_of_contents(article):
     messages.append({"role": "system", "content": systemmsg})
     prompt = f"ONLY generate the table of contents for this article in plain text but as markdown with links to headings, include a heading for the section: {article}."
     messages.append({"role": "user", "content": prompt})
-    response = Client.chat.completions.create(model="gpt-3.5-turbo-1106",messages=messages,)
+    response = Client.chat.completions.create(model="gpt-4",messages=messages,)
     response_message = response.choices[0].message.content
     return response_message
 
 
-# Example usage
-methodology_ = methodology(keyword)
-publications = read_publications('publications.json')
+def main():
+    methodology_ = methodology(keyword)
+    publications = read_publications('items.json')
+    sections = generate_sections(methodology_,keyword,publications)
+    overview_ = overview(keyword,sections)
+    article =  methodology_ + "\n\n"+ sections
+    introduction_ = introduction(article)
+    article += "\n\n"+ introduction_ +"\n\n" + overview_ + "\n\n" + methodology_ +"\n\n"+ sections
+    table_of_contents_ = table_of_contents(article)
+    final_article = introduction_ +"\n\n"+ table_of_contents_ +"\n\n"+ overview_ + "\n\n" + methodology_ +"\n\n\n"+ sections
+    # print(final_article)
+    #replace markdown tags with nothing
+    final_article = final_article.replace("```markdown","")
+    final_article = final_article.replace("```","")
+    #add results to results.md file
+    with open('results.md', 'w') as file:
+        file.write(final_article)
 
-sections = generate_sections(methodology_,keyword,publications)
-overview_ = overview(keyword,sections)
-
-article =  methodology_ + "\n\n"+ sections
-
-introduction_ = introduction(article)
-
-article += "\n\n"+ introduction_ +"\n\n" + overview_ + "\n\n" + methodology_ +"\n\n"+ sections
-
-table_of_contents_ = table_of_contents(article)
-
-final_article = introduction_ +"\n\n"+ table_of_contents_ +"\n\n"+ overview_ + "\n\n" + methodology_ +"\n\n\n"+ sections
-#add results to results.md file
-with open('results.md', 'w') as file:
-    file.write(final_article)
+if __name__ == "__main__":
+    main()
 
 
-#NOTE: in future article might get too long and we will need to use assistant API and the article as a doc to it can vectorize it and add overview and table of contents to it.
-
-#TODO def generate_all_publications():
-    #basicly create the JSON of all publications with their names and links based off {keyword}
-
-#TODO def screenshot_all_publications():
-    #run throught JSON and screenshot all publications homepage - Note: scroll down to avoid ads.
-    #add to JSON the screenshot link
+#TODO scrape google maps for JSON data- may be different for style of application
 
 #TODO def generate_ranking(methodology): 
     #prompt: generate ranking for {category} based off {methodology} in JSON format: {category: {publication: {rank: 1, link: https://www.wired.com/, photo: https://www.wired.com/logo.png}}}
     #will give it the doc using assistants API. 
 
-#TODO add assitants API to take advantage of files with our interal links to add to the sections.
+#TODO add assitants API to take advantage of files with our interal links to add to the sections and use of thread so we dont max out tokens.
 
-#TODO have a grading GPT that returns a bool if the article is good to post or not. If not, it will return a list of things to fix. And then call a GPT to fix it.
+#TODO have a grading GPT that states if the article is good to post or not. If not, it will return a list of things to fix. And then call a GPT to fix the section.
+
+#note Maybe the section builder shoudlnt have access to the image url and we do that part manuely. 
+    #if img_url :
+        #add the image
+    #else:
+        #dont add the image
