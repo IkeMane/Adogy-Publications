@@ -5,9 +5,7 @@ import json
 
 load_dotenv()
 Client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
-keyword = "Top Tech Publications"
-
+model = os.getenv("OPENAI_MODEL")
 
 def upload_file(file_path, purpose):
     with open(file_path, "rb") as file:
@@ -16,83 +14,83 @@ def upload_file(file_path, purpose):
 
 
 def methodology(keyword):
-    systemmsg = "You are a methodology section generator for {keyword} ranking its items and or categories. You only output markdown for the article. (dont use ``` instead just use plain text)"
+    systemmsg = f"You are a methodology section generator for {keyword} ranking its items and or categories. Output only the text that will be used in article."
     messages = list()
     messages.append({"role": "system", "content": systemmsg})
-    prompt = f"Generate a methodology section in plain text but as markdown starting at h2 for a wordpress article titled{keyword}. Include a heading for the section"
+    prompt = f"Generate a methodology section in html starting at h2 for a wordpress article titled{keyword}. Include a heading for the section"
     messages.append({"role": "user", "content": prompt})
-    response = Client.chat.completions.create(model="gpt-4",messages=messages,)
+    response = Client.chat.completions.create(model=model,messages=messages,)
     response_message = response.choices[0].message.content
     # print(response_message)
     return response_message
 
 
 def introduction(article):
-    systemmsg = "You are an introduction section generator for wordpress articles. You generate a very short introduction (dont use ``` instead just use plain text)"
+    systemmsg = f"You are an introduction section generator for wordpress articles. You generate a very short introduction"
     messages = list()
     messages.append({"role": "system", "content": systemmsg})
-    prompt = f"Generate a fun short one paragraph introduction without including the methodology for a wordpress article format it in plain text but as markdown starting at h2: \n {article}"
+    prompt = f"Generate a one paragraph introduction without including the methodology for a wordpress article format it html starting at h2: \n {article}"
     messages.append({"role": "user", "content": prompt})
-    response = Client.chat.completions.create(model="gpt-4",messages=messages,)
+    response = Client.chat.completions.create(model=model,messages=messages,)
     response_message = response.choices[0].message.content
     # print("\n\nIntroduction:",response_message)
     return response_message
 
 
 
-def read_publications(filename):
+def read_items(filename):
     with open(filename, 'r') as file:
         data = json.load(file)
-    return data['publications']
+    return data['items']
 
 
 #TODO change this to be an assistant API call to add internal links and to be sure it doesnt max out of tokens.
 def generate_sections(methodology,keyword,publications):
-    rated_publications = f"## {keyword} \n\n"
+    rated_publications = f"<h2> {keyword} </h2>\n\n"
     messages = list()
-    systemmsg = f"You are a section generator for wordpress articles. (dont use ``` instead just use plain text for the markdown) Write in a journalist tone and based off {methodology}."
+    systemmsg = f"You are a section generator for wordpress articles. Write in a journalist tone and based off: \n {methodology}."
     messages.append({"role": "system", "content": systemmsg})
     for publication in publications:
         name = publication['Title']
         link = publication['URL']
         photo = publication['Image URL']
-        prompt = f"Generate a short (one paragraph) section in plain text but as markdown about {name} for the article title {keyword}. Be sure to add their link whenever you mention their name: {link} and include their logo: {photo}."
+        prompt = f"Generate a short one paragraph section in html about {name} for the article title {keyword}. Be sure to add their link whenever you mention their name: {link} and show the image: {photo}."
         messages.append({"role": "user", "content": prompt})
         response = Client.chat.completions.create(
-            model="gpt-4",
+            model=model,
             messages=messages,
         )
         response_message = response.choices[0].message.content
         messages.append({"role": "assistant", "content": response_message})
         # print(response_message)
-        rated_publications += f"{response_message} \n\n" 
+        rated_publications += f"<h3>{name}</h3>\n{response_message}\n\n" 
     return rated_publications
 
 
 def overview(keyword, rated_publications):
-    systemmsg = "You are an article overview generator for wordpress articles. You generate the overview with this format in markdown(dont use ``` instead just use plain text): \n ## Top Tech Publications: \[WIRED](https://www.wired.com/) for tech news presented in a fun, stylish way targeted towards young professionals Top tech publication for readers under age 40 \n [ReadWrite](https://readwrite.com/) for detailed articles on subjects such as SEO, fintech, and software development Top tech publication for e-commerce"
+    systemmsg = f"You are an article overview generator for wordpress articles. You generate the overview with this format: \n <h2>Top Tech Publications</h2>: \n <ul> \n <li> <a href='https://www.wired.com/'>Wired</a> </li> \n </ul> "
     messages = list()
     messages.append({"role": "system", "content": systemmsg})
-    prompt = f"Generate an overview of this article with no images in plain text but as markdown for the article titled {keyword}. Keep it one sentence MAX for each, include a heading h1 for the section. {rated_publications}."
+    prompt = f"Generate an overview of this article with no images in html for the article titled {keyword}. Keep it one short sentence MAX for each section: {rated_publications}."
     messages.append({"role": "user", "content": prompt})
-    response = Client.chat.completions.create(model="gpt-4",messages=messages,)
+    response = Client.chat.completions.create(model=model,messages=messages,)
     response_message = response.choices[0].message.content
     return response_message
 
 def table_of_contents(article):
-    systemmsg = "You are an table of contents generator for wordpress articles. You generate the table of contents with this format in markdown (dont use ``` instead just use plain text): ## Table of Contents \n [Top Tech Publications](#top-tech-publications) \n ..."
+    systemmsg = f"You are an table of contents generator for wordpress articles. You generate the table of contents with this format: <h2> Table of Contents </h2> \n <ul> \n <li> <a href='#introduction'>Introduction</a> </li> \n </ul>..."
     messages = list()
     messages.append({"role": "system", "content": systemmsg})
-    prompt = f"ONLY generate the table of contents for this article in plain text but as markdown with links to headings, include a heading for the section: {article}."
+    prompt = f"ONLY generate the table of contents for this article in html with links to headings, include a heading for the section: {article}."
     messages.append({"role": "user", "content": prompt})
-    response = Client.chat.completions.create(model="gpt-4",messages=messages,)
+    response = Client.chat.completions.create(model=model,messages=messages,)
     response_message = response.choices[0].message.content
     return response_message
 
 
-def main():
+def autoblog(keyword):
     methodology_ = methodology(keyword)
-    publications = read_publications('items.json')
+    publications = read_items('items.json')
     sections = generate_sections(methodology_,keyword,publications)
     overview_ = overview(keyword,sections)
     article =  methodology_ + "\n\n"+ sections
@@ -102,14 +100,58 @@ def main():
     final_article = introduction_ +"\n\n"+ table_of_contents_ +"\n\n"+ overview_ + "\n\n" + methodology_ +"\n\n\n"+ sections
     # print(final_article)
     #replace markdown tags with nothing
-    final_article = final_article.replace("```markdown","")
-    final_article = final_article.replace("```","")
+    final_article = final_article.replace("“`html","")
+    final_article = final_article.replace("“`","")
     #add results to results.md file
     with open('results.md', 'w') as file:
         file.write(final_article)
+    return final_article
+
+
+
+def seo(article):
+    systemmsg = "You are an SEO generator for wordpress articles. You return only the text that will be used. e.g. response: Top Tech Publications"
+    messages = list()
+
+    messages.append({"role": "system", "content": systemmsg})
+    prompt = f"Heres the article:\n {article}."
+    messages.append({"role": "user", "content": prompt})
+
+    prompt = f"Generate the Focus keyphrase for this article."
+    messages.append({"role": "user", "content": prompt})
+    response = Client.chat.completions.create(model=model,messages=messages,)
+    focus_keyphrase = response.choices[0].message.content
+    focus_keyphrase = focus_keyphrase.replace('"','')
+    messages.append({"role": "assistant", "content": focus_keyphrase})
+
+
+    prompt = f"Generate the title for this article"
+    messages.append({"role": "user", "content": prompt})
+    response = Client.chat.completions.create(model=model,messages=messages,)
+    title = response.choices[0].message.content
+    title = title.replace('"','')
+    messages.append({"role": "assistant", "content": title})
+
+    prompt = f"Generate the SEO title for this article"
+    messages.append({"role": "user", "content": prompt})
+    response = Client.chat.completions.create(model=model,messages=messages,)
+    seo_title = response.choices[0].message.content
+    seo_title = seo_title.replace('"','')
+    messages.append({"role": "assistant", "content": seo_title})
+
+    prompt = f"Generate a meta description for this article in one very short sentence"
+    messages.append({"role": "user", "content": prompt})
+    response = Client.chat.completions.create(model=model,messages=messages,)
+    meta_description = response.choices[0].message.content
+    meta_description = meta_description.replace('"','')
+    messages.append({"role": "assistant", "content": meta_description})
+
+    return title, focus_keyphrase, meta_description, seo_title
+
+
 
 if __name__ == "__main__":
-    main()
+    print(autoblog('top tech publications'))
 
 
 #TODO scrape google maps for JSON data- may be different for style of application
@@ -127,3 +169,5 @@ if __name__ == "__main__":
         #add the image
     #else:
         #dont add the image
+    
+#TODO change from mardown to HTML for the final article.

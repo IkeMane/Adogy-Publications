@@ -8,6 +8,7 @@ import random
 
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+model = os.getenv("OPENAI_MODEL")
 
 
 def search_and_download(search_term, filename='image.jpg'):
@@ -36,7 +37,7 @@ def search_and_download(search_term, filename='image.jpg'):
         return json.dumps({"search_term": search_term, "image_url": "None", "saved_as": "None"})
 
 
-def run_conversation(keyword):
+def run_images(keyword):
     systemmsg = "You are a article image finder for wordpress articles."
 
     messages = [{"role": "system", "content": systemmsg}]
@@ -54,10 +55,6 @@ def run_conversation(keyword):
                             "type": "string",
                             "description": "The term to search for, e.g., 'news'",
                         },
-                        "filename": {
-                            "type": "string",
-                            "description": "File name for the downloaded image, should always be: 'image.jpg'",
-                        },
                     },
                     "required": ["search_term"],
                 },
@@ -69,40 +66,47 @@ def run_conversation(keyword):
     counter = 0
     while True:
         if counter > 5:
-            #generate new image
-            messages = list()
-            systemmsg = "You are a prompt enegineer for AI generated images. But be careful, when dealing with touchy subjects, you will have to be less detailed and more vague if its a touchy subject."
-            messages.append({"role": "system", "content": systemmsg})
-            messages.append({"role": "user", "content": f"Generate a prompt for Dall-e to generate an image for the article titled {keyword}. You will have to describe exactly what you want to see to every detail. Be very specific."})
-            dalle_prompt = client.chat.completions.create(
-                model="gpt-3.5-turbo-1106",
-                messages = messages,
-            )
-            prompt = dalle_prompt.choices[0].message.content
-            print("\n\nDalle Prompt:",prompt)
+            try:
+                #generate new image
+                messages = list()
+                systemmsg = "You are a prompt enegineer for AI generated images."
+                messages.append({"role": "system", "content": systemmsg})
+                messages.append({"role": "user", "content": f"Generate a prompt for Dall-e to generate an image for {keyword} article. You will have to describe exactly what you want to see to every detail. Dont use IP or trademarked content."})
+                dalle_prompt = client.chat.completions.create(
+                    model=model,
+                    messages = messages,
+                )
+                prompt = dalle_prompt.choices[0].message.content
+                print("\n\nDalle Prompt:",prompt)
 
-            # Generate the image
-            response = client.images.generate(
-                model="dall-e-3",
-                prompt=prompt,
-                size="1024x1024",
-                quality="hd",
-                n=1,
-                style="vivid",
-            )
-            image_url = response.data[0].url
-            print("\n\nDalle Image URL:",image_url)
+                # Generate the image
+                response = client.images.generate(
+                    model="dall-e-3",
+                    prompt=prompt,
+                    size="1024x1024",
+                    quality="hd",
+                    n=1,
+                    style="vivid",
+                )
+                image_url = response.data[0].url
+                print("\n\nDalle Image URL:",image_url)
+                
+                # Download and save the image
+                img_data = requests.get(image_url).content
+                with open('image.jpg', 'wb') as handler:
+                    handler.write(img_data)
+                print("Image saved as image.jpg")
+                break
 
-            # Download and save the image
-            img_data = requests.get(image_url).content
-            with open('image.jpg', 'wb') as handler:
-                handler.write(img_data)
-            print("Image saved as image.jpg")
-            break
+            except Exception as err:
+                # Handle the error here
+                print("Error:", err)
+                counter += 1
+                continue
 
 
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo-1106",
+            model=model,
             messages=messages,
             tools=tools,
             tool_choice="auto",
@@ -183,13 +187,11 @@ def run_conversation(keyword):
             break  
 
 
-def main(keyword):
-    print(run_conversation(keyword))
 
 
 if __name__ == "__main__":
-    keyword = "Flash Floods"
-    main(keyword)
+    keyword = "Top Tech Publications"
+    run_images(keyword)
 
 
 #TODO Have it see images that its already used and not use them again. add a general screenshot of the website maybe?
