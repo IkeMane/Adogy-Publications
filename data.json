@@ -1,0 +1,44 @@
+{
+    "items": [
+        {
+            "Title": "Ernie's Cafe & Steak House",
+            "URL": "https://www.erniescolumbia.com/",
+            "Image URL": "https://harmon-digital.com/wp-content/uploads/2024/01/screenshot.png"
+        },
+        {
+            "Title": "Cafe Berlin",
+            "URL": "https://www.cafeberlincomo.com/",
+            "Image URL": "https://harmon-digital.com/wp-content/uploads/2024/01/screenshot-1.png"
+        },
+        {
+            "Title": "Broadway Diner",
+            "URL": "http://www.broadwaydinercomo.com/",
+            "Image URL": "https://harmon-digital.com/wp-content/uploads/2024/01/screenshot-2.png"
+        },
+        {
+            "Title": "Sycamore",
+            "URL": "https://www.sycamorerestaurant.com/",
+            "Image URL": "https://harmon-digital.com/wp-content/uploads/2024/01/screenshot-3.png"
+        },
+        {
+            "Title": "The Heidelberg",
+            "URL": "https://www.theheidelberg.com/",
+            "Image URL": "https://harmon-digital.com/wp-content/uploads/2024/01/screenshot-4.png"
+        },
+        {
+            "Title": "Uprise Bakery",
+            "URL": "http://www.uprisebakery.com/",
+            "Image URL": "https://harmon-digital.com/wp-content/uploads/2024/01/screenshot-5.png"
+        },
+        {
+            "Title": "Breakfast & Brunch Diner",
+            "URL": "http://www.breakfastbrunchcomo.com/",
+            "Image URL": ""
+        },
+        {
+            "Title": "The Broadway Cafe",
+            "URL": "http://thebroadwaycafecomo.com/",
+            "Image URL": ""
+        }
+    ]
+}

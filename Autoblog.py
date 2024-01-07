@@ -17,7 +17,7 @@ def methodology(keyword):
     systemmsg = f"You are a methodology section generator for {keyword} ranking its items and or categories. Output only the text that will be used in article."
     messages = list()
     messages.append({"role": "system", "content": systemmsg})
-    prompt = f"Generate a methodology section in html starting at h2 for a wordpress article titled{keyword}. Include a heading for the section"
+    prompt = f"Generate a methodology section in html starting at h2 for a wordpress article titled {keyword}. Include a heading for the section."
     messages.append({"role": "user", "content": prompt})
     response = Client.chat.completions.create(model=model,messages=messages,)
     response_message = response.choices[0].message.content
@@ -45,16 +45,16 @@ def read_items(filename):
 
 
 #TODO change this to be an assistant API call to add internal links and to be sure it doesnt max out of tokens.
-def generate_sections(methodology,keyword,publications):
-    rated_publications = f"<h2> {keyword} </h2>\n\n"
+def generate_sections(methodology,keyword,items):
+    rated_items = f"<h2> {keyword} </h2>\n\n"
     messages = list()
     systemmsg = f"You are a section generator for wordpress articles. Write in a journalist tone and based off: \n {methodology}."
     messages.append({"role": "system", "content": systemmsg})
-    for publication in publications:
-        name = publication['Title']
-        link = publication['URL']
-        photo = publication['Image URL']
-        prompt = f"Generate a short one paragraph section in html about {name} for the article title {keyword}. Be sure to add their link whenever you mention their name: {link} and show the image: {photo}."
+    for item in items:
+        name = item['Title']
+        link = item['URL']
+        photo = item['Image URL']
+        prompt = f"Generate a short one paragraph section in html about {name} for the article title {keyword}. Be sure to add their link whenever you mention their name: {link} and show the image if one: {photo}. Dont add any headers."
         messages.append({"role": "user", "content": prompt})
         response = Client.chat.completions.create(
             model=model,
@@ -63,15 +63,15 @@ def generate_sections(methodology,keyword,publications):
         response_message = response.choices[0].message.content
         messages.append({"role": "assistant", "content": response_message})
         # print(response_message)
-        rated_publications += f"<h3>{name}</h3>\n{response_message}\n\n" 
-    return rated_publications
+        rated_items += f"<h3>{name}</h3>\n{response_message}\n\n" 
+    return rated_items
 
 
-def overview(keyword, rated_publications):
-    systemmsg = f"You are an article overview generator for wordpress articles. You generate the overview with this format: \n <h2>Top Tech Publications</h2>: \n <ul> \n <li> <a href='https://www.wired.com/'>Wired</a> </li> \n </ul> "
+def overview(keyword, rated_items):
+    systemmsg = f"You are an article overview generator for wordpress articles. You generate the overview with this format: \n <h2>{keyword}</h2>: \n <ul> \n <li> <a href='https://www.wired.com/'>Wired</a> </li> \n </ul> "
     messages = list()
     messages.append({"role": "system", "content": systemmsg})
-    prompt = f"Generate an overview of this article with no images in html for the article titled {keyword}. Keep it one short sentence MAX for each section: {rated_publications}."
+    prompt = f"Generate an overview of this article with no images in html for the article titled {keyword}. Keep it one short sentence MAX for each section: {rated_items}."
     messages.append({"role": "user", "content": prompt})
     response = Client.chat.completions.create(model=model,messages=messages,)
     response_message = response.choices[0].message.content
@@ -88,10 +88,22 @@ def table_of_contents(article):
     return response_message
 
 
-def autoblog(keyword):
-    methodology_ = methodology(keyword)
-    publications = read_items('items.json')
-    sections = generate_sections(methodology_,keyword,publications)
+def generate_json(keyword,methodology):
+    systemmsg = f"You are a json generator for {keyword} ranking its items and or categories. You use: {methodology} Output JSON."
+    messages = list()
+    messages.append({"role": "system", "content": systemmsg})
+    prompt = f'Create a list of {keyword} and links to websites. Leave the image URL blank like this JSON: {{"items": [{{"Title": "TechCrunch", "URL": "https://techcrunch.com/", "Image URL": ""}},...]}} '
+    messages.append({"role": "user", "content": prompt})
+    response = Client.chat.completions.create(model='gpt-4-1106-preview',messages=messages,response_format={ "type": "json_object" })
+    response_message = response.choices[0].message.content
+    # print(response_message)
+    return response_message
+
+
+def autoblog(keyword,methodology_):
+    # methodology_ = methodology(keyword)
+    items = read_items('data.json')
+    sections = generate_sections(methodology_,keyword,items)
     overview_ = overview(keyword,sections)
     article =  methodology_ + "\n\n"+ sections
     introduction_ = introduction(article)
@@ -102,6 +114,8 @@ def autoblog(keyword):
     #replace markdown tags with nothing
     final_article = final_article.replace("“`html","")
     final_article = final_article.replace("“`","")
+    final_article = final_article.replace("```html","")
+    final_article = final_article.replace("```","")
     #add results to results.md file
     with open('results.md', 'w') as file:
         file.write(final_article)

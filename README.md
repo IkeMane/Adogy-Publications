@@ -1,82 +1,48 @@
-# README for WordPress Article Generation Script
+# Project README
 
 ## Overview
+This Python project is designed to automate the process of generating structured content for digital publications. Leveraging a keyword-driven approach, the script generates comprehensive articles complete with SEO data and images. The methodology involves creating an article structure based on a given keyword, building an overview, a table of contents, and an introduction, followed by the automatic generation of SEO data and sourcing images from Pexels or Dalle 3.
 
-This script is designed to automate the creation of WordPress articles using OpenAI's GPT models. It focuses on generating different sections of an article about "Top US Media Publications," including methodology, introduction, sections for each publication, an overview, and a table of contents. The script uses JSON data for publications and outputs the article content in Markdown format.
+## Getting Started
+
+### Prerequisites
+Before you begin, ensure you have Python installed on your system. This project requires Python 3.x.
+
+### Installation
+1. **Install Dependencies:**
+   - Clone or download this repository to your local machine.
+   - Navigate to the project directory.
+   - Install the required packages using the following command:
+     ```bash
+     pip install -r requirements.txt
+     ```
+
+2. **Environment Setup:**
+   - Rename the provided `env_example` file to `.env`.
+   - Open the `.env` file and fill in your secret keys and other required information.
+
+3. **Configuration:**
+   - Within the `.env` file, specify the keyword around which you want your article to be written. For example, "top baby toys", "top news publications", or "top restaurants".
+
+### Running the Script
+- Execute the main script by running `main.py` from your command line:
+  ```bash
+  python main.py
+  ```
+
+## Features
+- **Keyword-Driven Content Generation:** The script uses a specified keyword from the `.env` file to generate a methodical and structured article.
+- **Section Building:** Each section of the article is constructed based on the generated data, including an overview, table of contents, and introduction.
+- **Screenshoting homepage:** If there is a valid link it will screenshot the link given.
+- **SEO Optimization:** Automatically generates SEO data for the article.
+- **Image Sourcing:** Sources images from Pexels. If a suitable image is not found, it uses Dalle 3 to generate one.
+
+## Upcoming Features (TODO)
+- **Randomized Author IDs:** This feature will add variability in the authorship of the articles.
+- **Category Selection:** Users will be able to choose categories under which their articles will be classified.
+- **Tagging System:** Implementation of a tagging system to enhance article discoverability and relevance.
+- **More controls:** I will add more controls for using with products rather than ranking items.
 
 
-## Setup
-
-1. **Install Required Packages**: Ensure you have the all the required packages installed. You can install them using pip:
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-2. **API Key**: Store your OpenAI API key in an `.env` file in the following format:
-
-   ```
-   OPENAI_API_KEY=your_api_key_here
-   ```
-
-3. **Publications JSON File**: Prepare a JSON file named `publications.json` with the structure:
-
-   ```json
-   {
-       "publications": [
-           {
-               "Title": "CNN News",
-               "URL": "https://news.cnn.com",
-               "Image URL": "https://images.cnn.com/logo.png"
-           },
-           ...
-       ]
-   }
-   ```
-
-This can be used for anything from products to collections
-
-## Functions
-
-- `upload_file(file_path, purpose)`: Uploads a file to OpenAI and returns its ID.
-- `methodology(keyword)`: Generates a methodology section in Markdown.
-- `introduction(article)`: Creates an introduction section for the article.
-- `read_publications(filename)`: Reads publication data from a JSON file.
-- `generate_sections(methodology, keyword, publications)`: Generates sections for each publication.
-- `overview(keyword, rated_publications)`: Creates an overview section for the article.
-- `table_of_contents(article)`: Generates a table of contents for the article.
-
-## Usage
-
-Run the script to generate an article. The final output will be printed in the console. It will include:
-
-- An introduction.
-- A table of contents.
-- An overview of the article.
-- A methodology section.
-- Individual sections for each publication listed in the `publications.json` file.
-
-## Example Article Structure
-
-The generated article will be structured as follows:
-
-1. Introduction
-2. Table of Contents
-3. Overview
-4. Methodology
-5. Sections for Each Publication
-
-Each section will be formatted in Markdown, suitable for WordPress article creation.
-
-## Notes
-
-- The script assumes you have a valid OpenAI API key and sufficient tokens for API calls.
-- The quality of the generated content depends on the input prompts and the GPT model's capabilities.
-- Remember to review and edit the generated content as needed to ensure accuracy and coherence.
-
-## Future Enhancements
-
-- Integration with WordPress API for direct publishing.
-- Enhanced error handling and response validation.
-- Dynamic content generation based on real-time data.
-- Improved Handling of Markdown for seamless automation
+## License
+This project is open-source and available under the MIT License.
