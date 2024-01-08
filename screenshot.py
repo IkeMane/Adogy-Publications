@@ -8,11 +8,13 @@ import base64
 from dotenv import load_dotenv
 import os
 
+# Load environment variables
 load_dotenv()
 wp_url = os.getenv("WORDPRESS_URL")
 username = os.getenv("WORDPRESS_USERNAME")
 app_password = os.getenv("WORDPRESS_PASSWORD")
 
+# User agents list
 user_agents = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36",
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Safari/605.1.15",
@@ -36,7 +38,6 @@ user_agents = [
     "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; AS; rv:11.0) like Gecko"
 ]
 
-
 async def take_screenshot(url, user_agent):
     try:
         browser = await launch()
@@ -51,29 +52,6 @@ async def take_screenshot(url, user_agent):
     except Exception as e:
         print(f"An error occurred while processing {url}: {e}")
         return None
-
-
-async def process_publications(file_path):
-    # Load the JSON data from file
-    with open(file_path, 'r') as file:
-        data = json.load(file)
-
-    # Process each publication
-    for publication in data['items']:
-        if publication['URL'] != "URL not found":
-            url = publication['URL']
-            user_agent = random.choice(user_agents)
-            screenshot = await take_screenshot(url, user_agent)
-            if screenshot:
-                image_url = await upload_to_wordpress(screenshot)
-                if image_url:
-                    publication['Image URL'] = image_url
-            time.sleep(random.randint(10, 30))  # Random delay between 10 to 30 seconds
-
-    # Write the updated JSON back to the file
-    with open(file_path, 'w') as file:
-        json.dump(data, file, indent=4)
-
 
 async def upload_to_wordpress(screenshot):
     media_url = f'{wp_url}/wp-json/wp/v2/media'
@@ -92,11 +70,26 @@ async def upload_to_wordpress(screenshot):
         print(f"Exception during upload: {e}")
     return None
 
-def screenshot():
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(process_publications('data.json'))
-    loop.close()
+async def process_publications(file_path):
+    with open(file_path, 'r') as file:
+        data = json.load(file)
 
+    for publication in data['items']:
+        if publication['URL'] != "URL not found":
+            url = publication['URL']
+            user_agent = random.choice(user_agents)
+            screenshot = await take_screenshot(url, user_agent)
+            if screenshot:
+                image_url = await upload_to_wordpress(screenshot)
+                if image_url:
+                    publication['Image URL'] = image_url
+            time.sleep(random.randint(10, 30))
+
+    with open(file_path, 'w') as file:
+        json.dump(data, file, indent=4)
+
+async def screenshot():
+    await process_publications('data.json')
 
 if __name__ == '__main__':
-    screenshot()
+    asyncio.run(screenshot())

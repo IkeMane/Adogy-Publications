@@ -1,44 +1,54 @@
 {
     "items": [
         {
-            "Title": "Ernie's Cafe & Steak House",
-            "URL": "https://www.erniescolumbia.com/",
-            "Image URL": "https://harmon-digital.com/wp-content/uploads/2024/01/screenshot.png"
+            "Title": "TechCrunch",
+            "URL": "https://techcrunch.com",
+            "Image URL": "https://harmon-digital.com/wp-content/uploads/2024/01/screenshot-66.png"
         },
         {
-            "Title": "Cafe Berlin",
-            "URL": "https://www.cafeberlincomo.com/",
-            "Image URL": "https://harmon-digital.com/wp-content/uploads/2024/01/screenshot-1.png"
+            "Title": "Wired",
+            "URL": "https://www.wired.com",
+            "Image URL": "https://harmon-digital.com/wp-content/uploads/2024/01/screenshot-67.png"
         },
         {
-            "Title": "Broadway Diner",
-            "URL": "http://www.broadwaydinercomo.com/",
-            "Image URL": "https://harmon-digital.com/wp-content/uploads/2024/01/screenshot-2.png"
+            "Title": "The Verge",
+            "URL": "https://www.theverge.com",
+            "Image URL": "https://harmon-digital.com/wp-content/uploads/2024/01/screenshot-68.png"
         },
         {
-            "Title": "Sycamore",
-            "URL": "https://www.sycamorerestaurant.com/",
-            "Image URL": "https://harmon-digital.com/wp-content/uploads/2024/01/screenshot-3.png"
+            "Title": "Ars Technica",
+            "URL": "https://arstechnica.com",
+            "Image URL": "https://harmon-digital.com/wp-content/uploads/2024/01/screenshot-69.png"
         },
         {
-            "Title": "The Heidelberg",
-            "URL": "https://www.theheidelberg.com/",
-            "Image URL": "https://harmon-digital.com/wp-content/uploads/2024/01/screenshot-4.png"
+            "Title": "CNET",
+            "URL": "https://www.cnet.com",
+            "Image URL": "https://harmon-digital.com/wp-content/uploads/2024/01/screenshot-70.png"
         },
         {
-            "Title": "Uprise Bakery",
-            "URL": "http://www.uprisebakery.com/",
-            "Image URL": "https://harmon-digital.com/wp-content/uploads/2024/01/screenshot-5.png"
+            "Title": "Engadget",
+            "URL": "https://www.engadget.com",
+            "Image URL": "https://harmon-digital.com/wp-content/uploads/2024/01/screenshot-71.png"
         },
         {
-            "Title": "Breakfast & Brunch Diner",
-            "URL": "http://www.breakfastbrunchcomo.com/",
-            "Image URL": ""
+            "Title": "Gizmodo",
+            "URL": "https://gizmodo.com",
+            "Image URL": "https://harmon-digital.com/wp-content/uploads/2024/01/screenshot-72.png"
         },
         {
-            "Title": "The Broadway Cafe",
-            "URL": "http://thebroadwaycafecomo.com/",
-            "Image URL": ""
+            "Title": "Mashable",
+            "URL": "https://mashable.com",
+            "Image URL": "https://harmon-digital.com/wp-content/uploads/2024/01/screenshot-73.png"
+        },
+        {
+            "Title": "ZDNet",
+            "URL": "https://www.zdnet.com",
+            "Image URL": "https://harmon-digital.com/wp-content/uploads/2024/01/screenshot-74.png"
+        },
+        {
+            "Title": "TechRadar",
+            "URL": "https://www.techradar.com",
+            "Image URL": "https://harmon-digital.com/wp-content/uploads/2024/01/screenshot-75.png"
         }
     ]
 }

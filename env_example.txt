@@ -1,17 +1,30 @@
 # OpenAI
 OPENAI_API_KEY =''
-OPENAI_MODEL = 'gpt-4' #Has to have access to tools. gpt-3.5-turbo-1106
+OPENAI_MODEL = 'gpt-4' #Has to have access to tools. 
+#gpt-3.5-turbo-1106
 
 # Others
 PEXELS_API_KEY=''
-SERPAPI_API_KEY='' #not required yet
+SERPAPI_API_KEY=''
 
-# Wordpress
+# Wordpress 
 WORDPRESS_USERNAME=''
 WORDPRESS_PASSWORD=''
 WORDPRESS_URL=''
-WP_AUTHOR_ID = #number found in aurthor url
-WP_STATUS = 'draft' #draft or publish
+WP_AUTHOR_ID =  #number
+WP_STATUS = 'draft'
+
+
+
+#Google 
+GOOGLE_API_KEY = ''
+SEARCH_ENGINE_ID = ''
+SHEET_ID = '' #this is in the url of the sheet
+SHEET_COLUMN_LETTER = 'B'
+WORKBOOK = '' #the name
+
 
 # Setup
-KEYWORD = 'Top breakfast places in Columbia Missouri'
+KEYWORD = 'Top tech publications'
+
+# Name your Google JSON API: google_sheets_api.json

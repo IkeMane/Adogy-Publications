@@ -92,7 +92,7 @@ def generate_json(keyword,methodology):
     systemmsg = f"You are a json generator for {keyword} ranking its items and or categories. You use: {methodology} Output JSON."
     messages = list()
     messages.append({"role": "system", "content": systemmsg})
-    prompt = f'Create a list of {keyword} and links to websites. Leave the image URL blank like this JSON: {{"items": [{{"Title": "TechCrunch", "URL": "https://techcrunch.com/", "Image URL": ""}},...]}} '
+    prompt = f'Create a list of {keyword} and links to websites. Leave the image URL and Image URL blank like this JSON: {{"items": [{{"Title": "TechCrunch", "URL": "", "Image URL": ""}},...]}} '
     messages.append({"role": "user", "content": prompt})
     response = Client.chat.completions.create(model='gpt-4-1106-preview',messages=messages,response_format={ "type": "json_object" })
     response_message = response.choices[0].message.content
@@ -116,6 +116,7 @@ def autoblog(keyword,methodology_):
     final_article = final_article.replace("“`","")
     final_article = final_article.replace("```html","")
     final_article = final_article.replace("```","")
+    final_article = final_article.replace('"','')
     #add results to results.md file
     with open('results.md', 'w') as file:
         file.write(final_article)
@@ -164,8 +165,7 @@ def seo(article):
 
 
 
-if __name__ == "__main__":
-    print(autoblog('top tech publications'))
+
 
 
 #TODO scrape google maps for JSON data- may be different for style of application

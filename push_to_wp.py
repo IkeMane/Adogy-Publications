@@ -23,8 +23,10 @@ def post_article_to_wordpress(title, content, status, author_id, username, passw
     if response.status_code == 201:
         new_post_data = response.json()
         new_post_id = new_post_data['id']
+        new_post_permalink = new_post_data['link']
         print(f"Article created successfully with ID: {new_post_id}")
-        return new_post_id
+        print(f"Article URL: {new_post_permalink}")
+        return new_post_id, new_post_permalink
     else:
         print(f"Failed to create article. Status code: {response.status_code}")
         return None
@@ -65,11 +67,11 @@ def update_yoast_seo(url, post_id, seo_title, seo_description, focus_keyphrase, 
 
 def push_to_wordpress(username, password, url, article_title, article_content, status, author_id , seo_title, seo_description, focus_keyphrase, image_path = 'image.jpg'):
     image_id = upload_image_to_wordpress(image_path, username, password, url)
-    new_article_id = post_article_to_wordpress(article_title, article_content, status, author_id, username, password, url,image_id)
+    new_article_id, permalink = post_article_to_wordpress(article_title, article_content, status, author_id, username, password, url,image_id)
     post_id = new_article_id 
     response = update_yoast_seo(url, post_id, seo_title, seo_description, focus_keyphrase, username, password)
     print(response)
-
+    return permalink
 
 
 
@@ -84,5 +86,4 @@ if __name__ == '__main__':
     seo_title = 'TEST SEO Title - I LOVE GPT4'
     seo_description = 'New SEO Description- I LOVE GPT4'
     focus_keyphrase = 'I LOVE GPT4'
-
     push_to_wordpress(username, password, url, article_title, article_content, status, author_id , seo_title, seo_description, focus_keyphrase)
